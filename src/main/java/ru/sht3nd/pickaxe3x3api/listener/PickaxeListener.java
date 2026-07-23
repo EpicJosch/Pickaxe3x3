@@ -291,8 +291,9 @@ public final class PickaxeListener implements Listener {
         Map<Enchantment, Integer> toolEnchantments = toolMeta.getEnchants();
         if(!(toolEnchantments.containsKey(Enchantment.DURABILITY))) return amount;
         int durabilityEnchantmentLevel = toolEnchantments.get(Enchantment.DURABILITY);
-        double newDamageDirty = ((double)amount / (double)(durabilityEnchantmentLevel + 1));
-        return (int) Math.round(newDamageDirty);
+        double newDamageDirty = ((double)amount / (double)(Math.min(durabilityEnchantmentLevel, 3) + 1));
+        int newDamage = (int) Math.round(newDamageDirty);
+        return Math.max(newDamage, 1);
     }
 
     private boolean isBelowThreshold(ItemStack tool) {
