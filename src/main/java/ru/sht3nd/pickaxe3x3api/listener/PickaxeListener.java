@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -103,7 +104,7 @@ public final class PickaxeListener implements Listener {
                                     int broken = breakBlocks(player, around, tool);
                                     if (broken > 0) {
                                         int damagePerBlock = (broken > 1 && plugin.getConfig().getBoolean("breakable_fast.enabled", false)) ? 9 : 1;
-                                        int finalDamage = damagePerBlock * broken;
+                                        int finalDamage = parseDamageForEnchantment(tool, damagePerBlock * broken);
                                         damageTool(player, tool, finalDamage);
                                         if (gentleEnabled && isBelowThreshold(tool)) {
                                             player.sendMessage(plugin.messages().get("gentle_mode_activated"));
@@ -281,6 +282,17 @@ public final class PickaxeListener implements Listener {
                 player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
             }
         }
+    }
+
+    private int parseDamageForEnchantment(ItemStack tool, int amount) {
+        if(!(plugin.getConfig().getBoolean("use_unbreaking", false))) return amount;
+        ItemMeta toolMeta = tool.getItemMeta();
+        if(toolMeta == null) return amount;
+        Map<Enchantment, Integer> toolEnchantments = toolMeta.getEnchants();
+        if(!(toolEnchantments.containsKey(Enchantment.DURABILITY))) return amount;
+        int durabilityEnchantmentLevel = toolEnchantments.get(Enchantment.DURABILITY);
+        double newDamageDirty = ((double)amount / (double)(durabilityEnchantmentLevel + 1));
+        return (int) Math.round(newDamageDirty);
     }
 
     private boolean isBelowThreshold(ItemStack tool) {

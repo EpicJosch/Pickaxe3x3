@@ -25,6 +25,8 @@ enchantments: # This function is responsible for adding enchantments to the pick
 
 unbreakable_pickaxe: false # This function is responsible for disabling pickaxe breaking.
 
+use_unbreaking: false # Defines whether the pickaxe respects the Unbreaking enchantment.
+
 regions: # Setting up for regions in the WorldGuard plugin.
   enabled: true # [!] If you disable this feature on the server, the pickaxe will break in the regions.
   list: # Here you can add regions in which it will be possible to break if they are intersected by another region.
