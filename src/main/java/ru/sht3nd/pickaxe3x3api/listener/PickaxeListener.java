@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
 import ru.sht3nd.pickaxe3x3api.Pickaxe3x3Api;
 
 import java.util.*;
@@ -145,19 +146,9 @@ public final class PickaxeListener implements Listener {
     }
 
     private List<Block> collectPlane(Player player, Block center) {
-        BlockFace face = null;
-        RayTraceResult rayResult = player.rayTraceBlocks(5.0);
-        if (rayResult != null) {
-            face = rayResult.getHitBlockFace();
-        }
-        if (face == null) {
-            face = BlockFace.UP;
-        }
-
         Set<Block> blocks = new HashSet<>();
-        switch (face) {
+        switch (getBlockFace(player)) {
             case UP:
-            case DOWN:
                 for (int dx = -1; dx <= 1; ++dx) {
                     for (int dz = -1; dz <= 1; ++dz) {
                         addIfValid(blocks, center.getRelative(dx, 0, dz), center);
@@ -165,7 +156,6 @@ public final class PickaxeListener implements Listener {
                 }
                 break;
             case EAST:
-            case WEST:
                 for (int dy = -1; dy <= 1; ++dy) {
                     for (int dz = -1; dz <= 1; ++dz) {
                         addIfValid(blocks, center.getRelative(0, dy, dz), center);
@@ -173,7 +163,6 @@ public final class PickaxeListener implements Listener {
                 }
                 break;
             case NORTH:
-            case SOUTH:
             default:
                 for (int dx = -1; dx <= 1; ++dx) {
                     for (int dy = -1; dy <= 1; ++dy) {
@@ -183,6 +172,30 @@ public final class PickaxeListener implements Listener {
                 break;
         }
         return new ArrayList<>(blocks);
+    }
+
+    private BlockFace getBlockFace(Player player) {
+        Vector dir = player.getEyeLocation().getDirection();
+
+        double x = dir.getX();
+        double y = dir.getY();
+        double z = dir.getZ();
+
+        double ax = Math.abs(x);
+        double ay = Math.abs(y);
+        double az = Math.abs(z);
+
+        BlockFace face;
+
+        if (ay >= ax && ay >= az) {
+            face = BlockFace.UP;
+        } else if (ax >= az) {
+            face = BlockFace.EAST;
+        } else {
+            face = BlockFace.NORTH;
+        }
+
+        return face;
     }
 
     private List<Block> collectCube(Block center) {
