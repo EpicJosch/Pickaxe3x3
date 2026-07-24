@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 public final class PickaxeTabCompleter implements TabCompleter {
+    @SuppressWarnings("NullableProblems")
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (!command.getName().equalsIgnoreCase("pickaxe3x3")) {

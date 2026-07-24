@@ -22,7 +22,6 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 import ru.sht3nd.pickaxe3x3api.Pickaxe3x3Api;
 

@@ -26,6 +26,7 @@ public final class PickaxeCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!command.getName().equalsIgnoreCase("pickaxe3x3")) {

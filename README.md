@@ -17,6 +17,8 @@ Two separate config options let you control wear and tear:
 - breakable_fast – when true, mining a 3x3 area costs 9 durability (1 per block). When false, only 1 durability is consumed per swing.
 
 - unbreakable_pickaxe – set to true to make the tool indestructible (infinite durability). Perfect for donator perks or OP tools.
+
+- use_unbreaking - Defines whether the pickaxe respects the Unbreaking enchantment.
 # 
 🛡️ Full WorldGuard Support
 The plugin checks region flags before breaking any block. If the player does not have building permission in the region, the 3x3 effect is cancelled and the pickaxe will not break blocks. You can also whitelist specific regions where the pickaxe should work regardless of overlapping protections.
